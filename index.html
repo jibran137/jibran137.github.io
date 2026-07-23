@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="indigo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muhammad Jibran Mughal — Software Engineer</title>
+<meta name="description" content="Software engineer, full-stack & automation. I build software that ships, then quietly runs in production.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ---- derived from the active theme's raw triples (resolved lazily) ---- */
+    --ink:         rgb(var(--ink-rgb));
+    --line:        rgba(var(--line-rgb), 0.14);
+    --line-2:      rgba(var(--line-rgb), 0.07);
+    --line-strong: rgba(var(--line-rgb), 0.30);
+    --signal:      rgb(var(--signal-rgb));
+    --signal-soft: rgba(var(--signal-rgb), 0.16);
+    --live:        rgb(var(--live-rgb));
+
+    --display: "Bricolage Grotesque", "Times New Roman", serif;
+    --body:    "Inter", system-ui, sans-serif;
+    --mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+    --wrap: 1120px;
+  }
+
+  /* ======================================================================
+     COLOR SCHEMES — the active one is set via <html data-theme="…">.
+     Six are defined (sand, sage, ember, slate, tidal, indigo); to change
+     the site, just edit the data-theme attribute. Each block sets raw
+     values; :root derives the rest. The hero canvas reads --signal-rgb /
+     --noise-rgb / --line-rgb from whichever theme is active.
+     ====================================================================== */
+
+  /* 1 · SAND — light, warm paper, terracotta accent */
+  [data-theme="sand"] {
+    --void: #ECE7DE; --panel: #F4F0E8; --panel-2: #E0D9CC;
+    --ink-rgb: 42,38,32; --mute: #6B6459; --faint: #8B8173;
+    --line-rgb: 55,42,24;
+    --signal-rgb: 176,74,38; --signal-hover: #C4562E; --on-signal: #FFFFFF;
+    --live-rgb: 90,120,80;
+    --noise-rgb: 150,142,128;
+    --bar-bg: rgba(236,231,222,0.82);
+  }
+  /* 2 · SAGE — light, cool green-grey, forest accent */
+  [data-theme="sage"] {
+    --void: #E6EAE3; --panel: #EFF2EB; --panel-2: #D7DED1;
+    --ink-rgb: 38,42,38; --mute: #5C6459; --faint: #838B7E;
+    --line-rgb: 32,48,32;
+    --signal-rgb: 61,107,74; --signal-hover: #467C57; --on-signal: #FFFFFF;
+    --live-rgb: 78,135,96;
+    --noise-rgb: 140,148,138;
+    --bar-bg: rgba(230,234,227,0.82);
+  }
+  /* 3 · EMBER — dark, warm charcoal, soft amber accent (homage) */
+  [data-theme="ember"] {
+    --void: #171612; --panel: #1F1D17; --panel-2: #26231A;
+    --ink-rgb: 236,231,222; --mute: #A69C8C; --faint: #6E6656;
+    --line-rgb: 245,235,220;
+    --signal-rgb: 240,140,66; --signal-hover: #FF9A52; --on-signal: #1A1710;
+    --live-rgb: 111,195,140;
+    --noise-rgb: 150,140,124;
+    --bar-bg: rgba(23,22,18,0.72);
+  }
+  /* 4 · SLATE — dark, neutral blue-grey, azure accent */
+  [data-theme="slate"] {
+    --void: #101319; --panel: #171B22; --panel-2: #1D222B;
+    --ink-rgb: 228,231,238; --mute: #8B93A3; --faint: #565E6E;
+    --line-rgb: 225,232,245;
+    --signal-rgb: 91,157,255; --signal-hover: #74AEFF; --on-signal: #0A1220;
+    --live-rgb: 80,210,160;
+    --noise-rgb: 120,128,140;
+    --bar-bg: rgba(16,19,25,0.72);
+  }
+  /* 5 · TIDAL — dark, cool slate, teal accent */
+  [data-theme="tidal"] {
+    --void: #0F1417; --panel: #161C20; --panel-2: #1C242A;
+    --ink-rgb: 226,236,238; --mute: #8CA0A6; --faint: #5A6A70;
+    --line-rgb: 210,235,240;
+    --signal-rgb: 63,199,180; --signal-hover: #56D6C4; --on-signal: #08201C;
+    --live-rgb: 90,200,255;
+    --noise-rgb: 118,138,144;
+    --bar-bg: rgba(15,20,23,0.72);
+  }
+  /* 6 · INDIGO — dark, moody violet, periwinkle accent */
+  [data-theme="indigo"] {
+    --void: #121320; --panel: #191A28; --panel-2: #1F2131;
+    --ink-rgb: 232,232,244; --mute: #9A9BB4; --faint: #61627C;
+    --line-rgb: 220,220,255;
+    --signal-rgb: 150,150,255; --signal-hover: #A8A8FF; --on-signal: #101020;
+    --live-rgb: 120,220,180;
+    --noise-rgb: 130,132,155;
+    --bar-bg: rgba(18,19,32,0.72);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--void);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--signal); color: var(--on-signal); }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- mono utility label ---------- */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--signal);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 22px; height: 1px;
+    background: var(--signal);
+    display: inline-block;
+  }
+
+  /* ---------- top bar ---------- */
+  header.bar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bar-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .bar-in {
+    max-width: var(--wrap); margin: 0 auto; padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono); font-size: 0.78rem;
+  }
+  .bar-name { color: var(--ink); font-weight: 500; letter-spacing: 0.02em; }
+  .bar-name b { color: var(--signal); font-weight: 500; }
+  .bar-nav { display: flex; gap: 22px; align-items: center; color: var(--mute); }
+  .bar-nav a { transition: color .15s; }
+  .bar-nav a:hover { color: var(--ink); }
+  .clock { color: var(--faint); }
+  @media (max-width: 720px) {
+    .bar-nav a.navlink { display: none; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; padding: 92px 0 40px; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em;
+    color: var(--live);
+    border: 1px solid var(--line); border-radius: 100px;
+    padding: 6px 13px 6px 11px; margin-bottom: 28px;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--live); position: relative; flex: none;
+    box-shadow: 0 0 0 0 rgba(var(--live-rgb),0.6);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(var(--live-rgb),0.5); }
+    70%  { box-shadow: 0 0 0 7px rgba(var(--live-rgb),0); }
+    100% { box-shadow: 0 0 0 0 rgba(var(--live-rgb),0); }
+  }
+  h1.hero-h {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6.6vw, 5.1rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    max-width: 15ch;
+    margin-bottom: 26px;
+  }
+  h1.hero-h em { font-style: normal; color: var(--signal); }
+  .hero-sub {
+    font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+    color: var(--mute); max-width: 56ch; line-height: 1.55;
+  }
+  .hero-sub b { color: var(--ink); font-weight: 500; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+  .btn {
+    font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.02em;
+    padding: 11px 18px; border-radius: 8px;
+    border: 1px solid var(--line);
+    display: inline-flex; align-items: center; gap: 9px;
+    transition: border-color .15s, background .15s, transform .15s, color .15s;
+    color: var(--ink);
+  }
+  .btn:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+  .btn.primary { background: var(--signal); border-color: var(--signal); color: var(--on-signal); font-weight: 500; }
+  .btn.primary:hover { background: var(--signal-hover); border-color: var(--signal-hover); }
+  .btn .arw { color: var(--signal); }
+  .btn.primary .arw { color: var(--on-signal); }
+
+  /* waveform band */
+  .scope { position: relative; margin-top: 54px; }
+  .scope canvas { display: block; width: 100%; height: 148px; cursor: crosshair; touch-action: pan-y; }
+  .scope-label {
+    position: absolute; right: 2px; top: -22px;
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--faint);
+  }
+
+  /* ---------- section frame ---------- */
+  section.block { padding: 74px 0; border-top: 1px solid var(--line-2); }
+  .sec-head { margin-bottom: 40px; }
+  .sec-head h2 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem); line-height: 1.05;
+    letter-spacing: -0.015em; margin-top: 16px; max-width: 22ch;
+  }
+  .sec-note { color: var(--mute); max-width: 54ch; margin-top: 14px; }
+
+  /* ---------- now running table ---------- */
+  .svc {
+    border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    background: linear-gradient(180deg, var(--panel), var(--void));
+  }
+  .svc-row {
+    display: grid;
+    grid-template-columns: 168px 1fr 200px 62px;
+    align-items: center; gap: 18px;
+    padding: 17px 22px;
+    border-top: 1px solid var(--line-2);
+    transition: background .15s;
+  }
+  .svc-row:first-child { border-top: none; }
+  .svc-row.head {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--mute);
+    background: var(--panel-2); padding-top: 13px; padding-bottom: 13px;
+  }
+  .svc-row:not(.head):hover { background: rgba(var(--signal-rgb),0.07); }
+  .svc-name { font-family: var(--mono); font-size: 0.9rem; color: var(--ink); }
+  .svc-desc { color: var(--mute); font-size: 0.95rem; }
+  .svc-stack { font-family: var(--mono); font-size: 0.74rem; color: var(--faint); letter-spacing: 0.01em; }
+  .svc-live { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 0.7rem; color: var(--live); justify-self: end; }
+  .svc-live .dot { animation: none; box-shadow: none; }
+  .svc-foot {
+    font-family: var(--mono); font-size: 0.8rem; color: var(--mute);
+    letter-spacing: 0.02em; padding: 16px 22px; background: var(--panel-2);
+    border-top: 1px solid var(--line);
+  }
+  .svc-foot b { color: var(--signal); font-weight: 500; }
+  @media (max-width: 760px) {
+    .svc-row { grid-template-columns: 1fr auto; gap: 5px 14px; padding: 15px 16px; }
+    .svc-row.head { display: none; }
+    .svc-desc { grid-column: 1 / -1; order: 3; }
+    .svc-stack { grid-column: 1 / -1; order: 4; }
+    .svc-live { order: 2; }
+  }
+
+  /* ---------- experience timeline ---------- */
+  .xp-row {
+    display: grid; grid-template-columns: 150px 1fr; gap: 26px;
+    padding: 26px 0; border-top: 1px solid var(--line-2);
+  }
+  .xp-row:first-of-type { border-top: none; }
+  .xp-when { font-family: var(--mono); font-size: 0.82rem; color: var(--signal); padding-top: 4px; }
+  .xp-org { font-family: var(--display); font-weight: 600; font-size: 1.22rem; letter-spacing: -0.01em; }
+  .xp-role { font-family: var(--mono); font-size: 0.76rem; color: var(--mute); margin: 5px 0 11px; letter-spacing: 0.02em; }
+  .xp-desc { color: var(--mute); max-width: 62ch; }
+  @media (max-width: 620px) {
+    .xp-row { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  /* ---------- selected work cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card {
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px 22px 22px;
+    background: var(--panel); display: flex; flex-direction: column; min-height: 210px;
+    transition: transform .18s, border-color .18s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: rgba(var(--signal-rgb),0.45); }
+  .card-idx { font-family: var(--mono); font-size: 0.74rem; color: var(--mute); letter-spacing: 0.1em; }
+  .card-name { font-family: var(--display); font-weight: 700; font-size: 1.3rem; margin: 14px 0 10px; letter-spacing: -0.01em; }
+  .card-desc { color: var(--mute); font-size: 0.94rem; flex: 1; }
+  .card-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--signal); margin-top: 16px; letter-spacing: 0.02em; }
+  @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
+
+  /* ---------- stack ---------- */
+  .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px 48px; }
+  .stack-group h3 {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 14px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: var(--mono); font-size: 0.8rem; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px;
+    background: var(--panel); transition: border-color .15s, color .15s;
+  }
+  .chip:hover { border-color: rgba(var(--signal-rgb),0.5); color: var(--signal); }
+  .chip.star { border-color: rgba(var(--signal-rgb),0.55); color: var(--signal); }
+  @media (max-width: 620px) { .stack-grid { grid-template-columns: 1fr; gap: 26px; } }
+
+  /* ---------- footer ---------- */
+  footer.foot { border-top: 1px solid var(--line); padding: 72px 0 40px; }
+  .foot-top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: start; }
+  .foot-lede {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.15; letter-spacing: -0.015em;
+    max-width: 20ch;
+  }
+  .foot-lede a { color: var(--signal); text-decoration: none; border-bottom: 2px solid var(--signal-soft); transition: border-color .15s; }
+  .foot-lede a:hover { border-color: var(--signal); }
+  .foot-meta { font-family: var(--mono); font-size: 0.82rem; color: var(--mute); line-height: 2; }
+  .foot-meta .k { color: var(--faint); }
+  .foot-meta a:hover { color: var(--signal); }
+  .foot-links { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 8px; }
+  .colophon {
+    margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line-2);
+    font-family: var(--mono); font-size: 0.72rem; color: var(--faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; letter-spacing: 0.02em;
+  }
+  @media (max-width: 720px) { .foot-top { grid-template-columns: 1fr; gap: 34px; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="bar-name">jibran<b>.</b>mughal</span>
+    <nav class="bar-nav">
+      <a class="navlink" href="#running">running</a>
+      <a class="navlink" href="#track">track record</a>
+      <a class="navlink" href="#stack">stack</a>
+      <a class="navlink" href="#contact">contact</a>
+      <span class="clock" id="clock" aria-hidden="true">—</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="status-pill"><span class="dot"></span>Available from September 2026</span>
+      <p class="eyebrow" style="margin-bottom:22px;">Software Engineer · Full-Stack &amp; Automation</p>
+      <h1 class="hero-h">I build software that ships — then <em>quietly runs</em> in production.</h1>
+      <p class="hero-sub">M.Sc. student in Darmstadt, building internal tools and AI features at <b>HolzProfi24</b>. Ten-plus services in daily company-wide use — most of them owned end to end, from the first <b>&ldquo;can we do something about this?&rdquo;</b> to deployment.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:jibran.mughal02@gmail.com">Email me <span class="arw">&rarr;</span></a>
+        <a class="btn" href="https://github.com/jibran137" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://linkedin.com/in/jibranmughal" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="Jibran_Mughal_Resume.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+      </div>
+
+      <div class="scope">
+        <span class="scope-label">signal · live</span>
+        <canvas id="scope" aria-hidden="true"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOW RUNNING -->
+  <section class="block" id="running">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">// now running</span>
+        <h2>Things I&rsquo;ve put into production</h2>
+        <p class="sec-note">A sample of what&rsquo;s live and used every day at work. Requirements, build, ship, keep it alive — mostly solo.</p>
+      </div>
+
+      <div class="svc">
+        <div class="svc-row head">
+          <span>service</span><span>what it does</span><span>stack</span><span style="justify-self:end;">status</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">kundenbilder</span>
+          <span class="svc-desc">Customer photo-upload portal with resumable uploads</span>
+          <span class="svc-stack">Next.js · TUS · Resend</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">reklamation</span>
+          <span class="svc-desc">Complaint intake form for back-office</span>
+          <span class="svc-stack">Next.js · Prisma</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">vereinskasse</span>
+          <span class="svc-desc">Social-login club-voting platform</span>
+          <span class="svc-stack">NextAuth · Prisma · i18n</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">caller-lookup</span>
+          <span class="svc-desc">3CX telephony → CRM caller middleware</span>
+          <span class="svc-stack">FastAPI · 3CX · Freshdesk</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">callcenter</span>
+          <span class="svc-desc">Agent interface for the call centre</span>
+          <span class="svc-stack">Fastify · React</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">ticket-triage</span>
+          <span class="svc-desc">Drafts replies for aging support tickets</span>
+          <span class="svc-stack">Python · OpenAI</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">supplier-search</span>
+          <span class="svc-desc">Scrapes &amp; classifies EU manufacturers</span>
+          <span class="svc-stack">Python · Flask · LLM</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-row">
+          <span class="svc-name">jira-insights</span>
+          <span class="svc-desc">Ticket-analysis pipeline surfacing blockers</span>
+          <span class="svc-stack">Python · OpenAI</span>
+          <span class="svc-live"><span class="dot"></span>live</span>
+        </div>
+        <div class="svc-foot"><b>10+ services</b> · Dockerized · shipped with Coolify + CI · error-monitored with GlitchTip</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACK RECORD -->
+  <section class="block" id="track">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">// track record</span>
+        <h2>Where I&rsquo;ve done it</h2>
+      </div>
+
+      <div class="xp-row">
+        <div class="xp-when">2025 &rarr; now</div>
+        <div>
+          <div class="xp-org">HolzProfi24 — Holzland Becker</div>
+          <div class="xp-role">Software Developer (Working Student) · Frankfurt</div>
+          <p class="xp-desc">Full-stack internal tools and back-office automations spanning telephony, CRM and ERP. Built LLM-powered features — ticket triage, a cancellation flow across Navision and Freshdesk, supplier discovery — and shipped 10+ services into daily company-wide use.</p>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">2023 &rarr; 2025</div>
+        <div>
+          <div class="xp-org">Emma — The Sleep Company</div>
+          <div class="xp-role">Working Student, R&amp;D · Frankfurt</div>
+          <p class="xp-desc">Built Power Apps + Power Automate tools for the R&amp;D team to log material test data into SQL Server, with templated Excel reporting via Python on Azure — cutting manual reporting effort and centralising documentation.</p>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">2021 &rarr; 2022</div>
+        <div>
+          <div class="xp-org">ComSens Lab — COMSATS University</div>
+          <div class="xp-role">Machine Learning Research Intern · Islamabad</div>
+          <p class="xp-desc">Designed a hybrid deep-learning model (VGG-16 + deep belief network) for electricity-theft detection on the SGCC dataset. Research considered for publication in IEEE Access.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">// on my own time</span>
+        <h2>A few things I built for myself</h2>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <span class="card-idx">macOS · shipped</span>
+          <div class="card-name">To-Bar-Do</div>
+          <p class="card-desc">Native menu-bar to-do app. Global hotkey (&#8997;&#8984;T), a <span style="font-family:var(--mono);color:var(--ink);">tobardo://</span> URL scheme for automation, local storage, zero dependencies. I use it every day.</p>
+          <span class="card-tag">Swift · SwiftUI</span>
+        </div>
+        <div class="card">
+          <span class="card-idx">iOS</span>
+          <div class="card-name">CypherText</div>
+          <p class="card-desc">A text-encryption app implementing a first-millennium cipher, built for the feel of the thing.</p>
+          <span class="card-tag">Swift · SwiftUI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="block" id="stack">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">// toolkit</span>
+        <h2>What I reach for</h2>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-group">
+          <h3>Languages</h3>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">JavaScript</span><span class="chip">SQL</span><span class="chip">Swift</span><span class="chip">C++</span><span class="chip">MATLAB</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>Backend &amp; Data</h3>
+          <div class="chips">
+            <span class="chip">FastAPI</span><span class="chip">Node.js</span><span class="chip">Fastify</span><span class="chip">PostgreSQL</span><span class="chip">Prisma</span><span class="chip">SQLite</span><span class="chip">REST</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>Frontend</h3>
+          <div class="chips">
+            <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Nuxt 3 / Vue</span><span class="chip">SwiftUI</span><span class="chip">Tailwind</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>AI / LLM</h3>
+          <div class="chips">
+            <span class="chip">OpenAI</span><span class="chip">RAG &amp; agentic</span><span class="chip">Structured outputs</span><span class="chip">Prompt engineering</span><span class="chip star">Claude Code — daily driver</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>DevOps &amp; Cloud</h3>
+          <div class="chips">
+            <span class="chip">Docker</span><span class="chip">Coolify</span><span class="chip">CI/CD</span><span class="chip">Linux / VPS</span><span class="chip">Git</span><span class="chip">GlitchTip</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h3>Platforms</h3>
+          <div class="chips">
+            <span class="chip">Shopware 6</span><span class="chip">Freshdesk</span><span class="chip">3CX</span><span class="chip">Navision</span><span class="chip">Google Workspace</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER / CONTACT -->
+  <footer class="foot" id="contact">
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="foot-lede">
+          Got something that needs building? <a href="mailto:jibran.mughal02@gmail.com">Let&rsquo;s talk.</a>
+        </div>
+        <div class="foot-meta">
+          <div><span class="k">where&nbsp;&nbsp;</span> Darmstadt, Germany</div>
+          <div><span class="k">study&nbsp;&nbsp;</span> M.Sc. Information &amp; Communication Eng. · TU Darmstadt</div>
+          <div><span class="k">roots&nbsp;&nbsp;</span> B.Sc. Electronics Engineering · GIKI · signal processing &amp; MATLAB</div>
+          <div><span class="k">langs&nbsp;&nbsp;</span> Urdu (native) · English (IELTS 7.5) · German (A2)</div>
+          <div class="foot-links">
+            <a href="mailto:jibran.mughal02@gmail.com">email</a>
+            <a href="https://github.com/jibran137" target="_blank" rel="noopener">github</a>
+            <a href="https://linkedin.com/in/jibranmughal" target="_blank" rel="noopener">linkedin</a>
+            <a href="Jibran_Mughal_Resume.pdf" target="_blank" rel="noopener">cv&nbsp;&darr;</a>
+          </div>
+        </div>
+      </div>
+      <div class="colophon">
+        <span>Hand-built. No template.</span>
+        <span id="year">&copy; 2026 Muhammad Jibran Mughal</span>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  // live clock (Europe/Berlin)
+  (function () {
+    var el = document.getElementById('clock');
+    if (!el) return;
+    function tick() {
+      try {
+        var t = new Date().toLocaleTimeString('en-GB', {
+          hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin'
+        });
+        el.textContent = 'DE ' + t;
+      } catch (e) { el.textContent = ''; }
+    }
+    tick(); setInterval(tick, 1000 * 20);
+    var y = document.getElementById('year');
+    if (y) y.textContent = '© ' + new Date().getFullYear() + ' Muhammad Jibran Mughal';
+  })();
+
+  // oscilloscope / signal waveform
+  (function () {
+    var canvas = document.getElementById('scope');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // waveform colors are pulled from the active theme's CSS variables
+    var COL = { sig: '150,150,255', noise: '130,132,155', grid: '220,220,255' };
+    function readColors() {
+      var cs = getComputedStyle(document.documentElement);
+      COL.sig   = (cs.getPropertyValue('--signal-rgb') || COL.sig).trim();
+      COL.noise = (cs.getPropertyValue('--noise-rgb')  || COL.noise).trim();
+      COL.grid  = (cs.getPropertyValue('--line-rgb')   || COL.grid).trim();
+    }
+    var w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resize() {
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // --- probe: the signal reacts to your cursor ---
+    // px = probe position (0..1), ps = probe strength (0..1), eased each frame
+    var px = 0.5, ps = 0, tpx = 0.5, tps = 0;
+
+    function sigY(t2, phase, mid) {
+      var env = Math.sin(t2 * Math.PI); // fade at edges
+      var bump = ps * Math.exp(-Math.pow((t2 - px) * 6.5, 2)); // local excitation
+      return mid
+        + Math.sin(t2 * 9 - phase) * 30 * env * (1 + bump * 1.25)
+        + Math.sin(t2 * 31 + phase * 2.3) * (5 + bump * 8) * env;
+    }
+
+    function draw(phase) {
+      ctx.clearRect(0, 0, w, h);
+      var mid = h / 2;
+
+      // faint baseline grid
+      ctx.strokeStyle = 'rgba(' + COL.grid + ',0.09)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, mid); ctx.lineTo(w, mid); ctx.stroke();
+
+      // secondary (muted) wave — the "noise"
+      ctx.strokeStyle = 'rgba(' + COL.noise + ',0.30)';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (var x = 0; x <= w; x += 2) {
+        var t = x / w;
+        var y = mid
+          + Math.sin(t * 22 + phase * 1.7) * 10
+          + Math.sin(t * 7 - phase * 0.9) * 16;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // primary signal — orange, amplitude envelope
+      var grad = ctx.createLinearGradient(0, 0, w, 0);
+      grad.addColorStop(0, 'rgba(' + COL.sig + ',0)');
+      grad.addColorStop(0.12, 'rgba(' + COL.sig + ',1)');
+      grad.addColorStop(0.88, 'rgba(' + COL.sig + ',1)');
+      grad.addColorStop(1, 'rgba(' + COL.sig + ',0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (var x2 = 0; x2 <= w; x2 += 2) {
+        var y2 = sigY(x2 / w, phase, mid);
+        x2 === 0 ? ctx.moveTo(x2, y2) : ctx.lineTo(x2, y2);
+      }
+      ctx.stroke();
+
+      // probe overlay — scan line, dot riding the wave, mono readout
+      if (ps > 0.02) {
+        var sx = px * w;
+        var sy = sigY(px, phase, mid);
+
+        ctx.strokeStyle = 'rgba(' + COL.sig + ',' + 0.35 * ps + ')';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(sx, 6); ctx.lineTo(sx, h - 6); ctx.stroke();
+
+        ctx.fillStyle = 'rgba(' + COL.sig + ',' + 0.18 * ps + ')';
+        ctx.beginPath(); ctx.arc(sx, sy, 8, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(' + COL.sig + ',' + ps + ')';
+        ctx.beginPath(); ctx.arc(sx, sy, 2.5, 0, Math.PI * 2); ctx.fill();
+
+        var v = (mid - sy) / 30;
+        var label = (v < 0 ? '−' : '+') + Math.abs(v).toFixed(2);
+        ctx.font = '10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.fillStyle = 'rgba(' + COL.noise + ',' + 0.9 * ps + ')';
+        var lx = sx + 10 > w - 42 ? sx - 42 : sx + 10;
+        ctx.fillText(label, lx, Math.max(13, Math.min(h - 8, sy - 9)));
+      }
+    }
+
+    readColors();
+    if (reduce) { draw(0.6); return; }
+
+    canvas.addEventListener('pointermove', function (e) {
+      var r = canvas.getBoundingClientRect();
+      tpx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+      tps = 1;
+      if (ps < 0.05) px = tpx; // don't sweep in from a stale position
+    });
+    canvas.addEventListener('pointerleave', function () { tps = 0; });
+
+    var p = 0;
+    (function loop() {
+      p += 0.02;
+      px += (tpx - px) * 0.14; // analog-feeling ease toward the cursor
+      ps += (tps - ps) * (tps > ps ? 0.1 : 0.05); // rise fast-ish, decay slow
+      draw(p);
+      requestAnimationFrame(loop);
+    })();
+  })();
+</script>
+
+</body>
+</html>

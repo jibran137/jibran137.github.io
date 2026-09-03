@@ -285,7 +285,7 @@
   }
 
   /* ---------- selected work cards ---------- */
-  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .card {
     border: 1px solid var(--line); border-radius: 14px; padding: 24px 22px 22px;
     background: var(--panel); display: flex; flex-direction: column; min-height: 210px;
@@ -299,7 +299,8 @@
   .card-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--signal); letter-spacing: 0.02em; }
   .card-repo { font-family: var(--mono); font-size: 0.72rem; color: var(--mute); letter-spacing: 0.02em; white-space: nowrap; border: 1px solid var(--line); border-radius: 7px; padding: 5px 11px; transition: color .15s, border-color .15s, background .15s; }
   a.card:hover .card-repo { color: var(--signal); border-color: var(--signal); background: var(--signal-soft); }
-  @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
+  @media (max-width: 980px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
 
   /* ---------- stack ---------- */
   .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px 48px; }
@@ -481,14 +482,15 @@
             <span class="card-repo">source &#8599;</span>
           </div>
         </a>
-        <div class="card">
+        <a class="card" href="https://github.com/jibran137/cyphertext" target="_blank" rel="noopener">
           <span class="card-idx">iOS</span>
           <div class="card-name">CypherText</div>
-          <p class="card-desc">A text-encryption app implementing a first-millennium cipher, built for the feel of the thing.</p>
+          <p class="card-desc">A keyword cipher from Simon Singh&rsquo;s <i>The Code Book</i> &mdash; a secret word seeds a shuffled alphabet, the rest fills in around it. Built for the feel of the thing while learning Swift.</p>
           <div class="card-foot">
             <span class="card-tag">Swift · SwiftUI</span>
+            <span class="card-repo">source &#8599;</span>
           </div>
-        </div>
+        </a>
         <a class="card" href="https://github.com/jibran137/jobradar" target="_blank" rel="noopener">
           <span class="card-idx">self-hosted · in use</span>
           <div class="card-name">JobRadar</div>
